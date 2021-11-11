@@ -1,0 +1,53 @@
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+small {
+	margin-top: var(--baseTextMargin);
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+p {
+	@include text($baseFontSize, $baseLineHeight);
+}
+
+h1 {
+	@include display(pow($baseTypescale, 5) * $baseFontSize, 1);
+	padding-top: calc(var(--baseGap) * 2);
+	padding-bottom: calc(var(--baseGap) * 2);
+}
+
+h2 {
+	@include display(pow($baseTypescale, 4) * $baseFontSize, 1);
+	padding-top: calc(var(--baseGap) * 2);
+}
+
+h3 {
+	@include display(pow($baseTypescale, 3) * $baseFontSize, 1);
+	padding-top: calc(var(--baseGap) * 2);
+}
+
+h4 {
+	@include displaySmall(pow($baseTypescale, 2) * $baseFontSize, 1);
+	padding-top: var(--baseGap);
+}
+
+h5 {
+	@include displaySmall(pow($baseTypescale, 1) * $baseFontSize, 1);
+	padding-top: var(--baseGap);
+}
+
+h6 {
+	@include displaySmall($baseFontSize, 1);
+	padding-top: var(--baseGap);
+}
+
+small {
+	@include text(.8 * $baseFontSize, $baseLineHeight);
+}

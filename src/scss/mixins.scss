@@ -1,0 +1,214 @@
+@use 'sass:math';
+
+@function pow($number, $exponent) {
+	$value: 1;
+
+	@if $exponent>0 {
+		@for $i from 1 through $exponent {
+			$value: $value * $number;
+		}
+	}
+
+	@else if $exponent < 0 {
+		@for $i from 1 through -$exponent {
+			$value: math.div($value, $number);
+		}
+	}
+
+	@return $value;
+}
+
+@mixin center() {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+@mixin compositeHslaColours($map, $renderComposites: true) {
+
+	@each $color,
+	$value in $map {
+		@if $renderComposites {
+			--#{$color}-h: #{math.div(hue($value), hue($value) * 0 + 1)}; //strip unit
+			--#{$color}-s: #{saturation($value)};
+			--#{$color}-l: #{lightness($value)};
+			--#{$color}-a: #{alpha($value)};
+			--#{$color}: hsla(var(--#{$color}-h), var(--#{$color}-s), var(--#{$color}-l), var(--#{$color}-a));
+		}
+
+		@else {
+			--#{$color}: hsla(#{math.div(hue($value), hue($value) * 0 + 1)}, #{saturation($value)}, #{lightness($value)}, #{alpha($value)});
+		}
+
+	}
+}
+
+@mixin cmykify($c: 20, $m: 40, $y: 100, $k: 10, $raster: 3, $saturation: 1) {
+	$base: "https://cmykify.vercel.app";
+	background-image: url(#{$base}/cmyk/c#{$c}.png),
+	url(#{$base}/cmyk/m#{$m}.png),
+	url(#{$base}/cmyk/y#{$y}.png),
+	url(#{$base}/cmyk/k#{$k}.png),
+	url(#{$base}/cmyk/grain.png);
+	background-size: #{$raster * 45}px,
+	#{$raster * 45}px,
+	#{$raster * 45}px,
+	#{$raster * 45}px,
+	512px;
+	filter: saturate($saturation);
+}
+
+// https://proportional-font-svelte.vercel.app/
+@mixin proportionalFont($fontSize: 1em, // Any unit
+	$lineHeight: 1, // Has to be unitless (like em)
+	$fontSpecs: ('font': sans-serif, // Font-family (parentheses if list with fallbacks)
+		'topToXheightRatio': .32, // Distance between top of box at lineheight 1 and the x-height. Sets negative translateY.
+		'lineheightMinusXheightRatio': .64, // Relationship between height of box at lineheight 1 and x-height. Sets negative margin-bottom.
+		'leftShiftRatio': 0, // Adjusts left edge, as ratio of font-size.
+		'letterSpacingRatio': -0.04) // Sets letter-spacing, in em.
+
+) {
+	font: $fontSize#{"/"}$lineHeight map-get($fontSpecs, 'font');
+	letter-spacing: 0em + map-get($fontSpecs, 'letterSpacingRatio');
+	transform: translatey(-$fontSize * ((math.div($lineHeight - 1, 2)) + map-get($fontSpecs, 'topToXheightRatio'))) translatex(-$fontSize * map-get($fontSpecs, 'leftShiftRatio'));
+	margin-bottom: -$fontSize * (($lineHeight - 1) + map-get($fontSpecs, 'lineheightMinusXheightRatio'));
+}
+
+@mixin sans($fontSize: 1rem, $lineHeight: 1) {
+	$fontSpecs: ('font': ('DM Sans', sans-serif),
+			'topToXheightRatio': .34,
+			'lineheightMinusXheightRatio': .50,
+			'leftShiftRatio': .08,
+			'letterSpacingRatio': -.03);
+	@include proportionalFont($fontSize, $lineHeight, $fontSpecs);
+}
+
+@mixin display($fontSize: 1rem, $lineHeight: 1) {
+	$fontSpecs: ('font': ('DM Serif Display', serif),
+			'topToXheightRatio': .365,
+			'lineheightMinusXheightRatio': .515,
+			'leftShiftRatio': .07,
+			'letterSpacingRatio': -.01);
+	@include proportionalFont($fontSize, $lineHeight, $fontSpecs);
+}
+
+@mixin displaySmall($fontSize: 1rem, $lineHeight: 1) {
+	$fontSpecs: ('font': ('DM Serif Text', serif),
+			'topToXheightRatio': .37,
+			'lineheightMinusXheightRatio': .52,
+			'leftShiftRatio': .08,
+			'letterSpacingRatio': -.02);
+	@include proportionalFont($fontSize, $lineHeight, $fontSpecs);
+}
+
+@mixin text($fontSize: 1rem, $lineHeight: 1) {
+	$fontSpecs: ('font': ('Manuale', serif),
+			'topToXheightRatio': .38,
+			'lineheightMinusXheightRatio': .51,
+			'leftShiftRatio': .12);
+	@include proportionalFont($fontSize, $lineHeight, $fontSpecs);
+}
+
+@mixin mono($fontSize: 1rem, $lineHeight: 1) {
+	$fontSpecs: ('font': ('DM Mono', monospace),
+			'topToXheightRatio': .375,
+			'lineheightMinusXheightRatio': .54,
+			'leftShiftRatio': .06,
+			'letterSpacingRatio': -.02);
+	@include proportionalFont($fontSize, $lineHeight, $fontSpecs);
+}
+
+@function breakAtCol($colNum: 2, $colWidth: 15rem) {
+	@if $colNum>=6 {
+		@return '(min-width: #{ $colWidth * $colNum })';
+	}
+
+	@return '(min-width: #{ $colWidth * $colNum }) and (max-width: #{ $colWidth * ($colNum + 1) })';
+}
+
+@mixin fancy-schmanzy-list($gap: 1rem, $colWidth: 20rem, $childSelector: 'li') {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $gap;
+
+	#{ $childSelector } {
+		// if 1-col
+		flex: 100%;
+
+		// if 2-col
+		@media #{ breakAtCol(2, $colWidth) } {
+			flex: calc(100% / 2 - #{ $gap });
+		}
+
+		// if 3-col
+		@media #{ breakAtCol(3, $colWidth) } {
+			flex: calc(100% / 3 - #{ $gap });
+
+			// if (n % 3 == 1)
+			&:nth-child(3n + 1):nth-last-child(1),
+			&:nth-child(3n):nth-last-child(2) {
+				flex: calc(100% / 2 - #{ $gap });
+			}
+		}
+
+		// if 4-col
+		@media #{ breakAtCol(4, $colWidth) } {
+			flex: calc(100% / 4 - #{ $gap });
+
+			// if (n % 4 == 1)
+			&:nth-child(4n + 1):nth-last-child(1),
+			&:nth-child(4n):nth-last-child(2) {
+				flex: calc(100% / 2 - #{ $gap });
+			}
+		}
+
+		// if 5-col
+		@media #{ breakAtCol(5, $colWidth) } {
+			flex: calc(100% / 5 - #{ $gap });
+
+			// if (n % 5 == 2)
+			&:nth-child(5n + 2):nth-last-child(1),
+			&:nth-child(5n + 1):nth-last-child(2),
+			&:nth-child(5n):nth-last-child(3) {
+				flex: calc(100% / 3 - #{ $gap });
+			}
+
+			// if (n % 5 == 1)
+			&:nth-child(5n + 1):nth-last-child(1),
+			&:nth-child(5n):nth-last-child(2),
+			&:nth-child(5n - 1):nth-last-child(3),
+			&:nth-child(5n - 2):nth-last-child(4),
+			&:nth-child(5n - 3):nth-last-child(5),
+			&:nth-child(5n - 4):nth-last-child(6) {
+				flex: calc(100% / 3 - #{ $gap });
+			}
+		}
+
+		// if 6-col
+		@media #{ breakAtCol(6, $colWidth) } {
+			flex: calc(100% / 6 - #{ $gap });
+
+			// if (n % 6 == 2)
+			&:nth-child(6n + 2):nth-last-child(1),
+			&:nth-child(6n + 1):nth-last-child(2),
+			&:nth-child(6n):nth-last-child(3) {
+				flex: calc(100% / 4 - #{ $gap });
+			}
+
+			// if (n % 6 == 1)
+			&:nth-child(6n + 1):nth-last-child(1),
+			&:nth-child(6n):nth-last-child(2),
+			&:nth-child(6n - 1):nth-last-child(3) {
+				flex: calc(100% / 3 - #{ $gap });
+			}
+
+			&:nth-child(6n - 2):nth-last-child(4),
+			&:nth-child(6n - 3):nth-last-child(5),
+			&:nth-child(6n - 4):nth-last-child(6),
+			&:nth-child(6n - 5):nth-last-child(7) {
+				flex: calc(100% / 4 - #{ $gap });
+			}
+		}
+	}
+}

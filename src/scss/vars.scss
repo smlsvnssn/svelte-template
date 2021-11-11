@@ -1,0 +1,123 @@
+@import './scssvars';
+
+// scss vars used for calculating type scale
+$baseUnit: 8px;
+$baseLineHeight: 1.5;
+$baseTypescale: 1.333; // scss var because raised to power (soon in css too)
+$baseFontSize: 2rem;
+
+// scss vars for breakpoints
+$mobile: 'screen and (max-width: 75rem)';
+$desktop: 'screen and (min-width: 100rem)';
+
+:root {
+
+	// Base units & base type.
+
+	--baseUnit: #{$baseUnit}; // Base unit for rem. Set everything else in rems. No pixels!
+	--baseTime: .3s;
+
+	--baseFont: 'DM Sans', -apple-system, Roboto, sans-serif;
+	--baseFontSize: #{$baseFontSize};
+
+
+	--baseLineHeight: #{$baseLineHeight}em;
+	//--baseTypescale: $baseTypescale;
+
+	--baseGap: 2rem;
+
+	--baseGrid: auto / [full-start] minmax(var(--baseGap), 1fr) [main-start] minmax(0, var(--baseMaxWidth)) [main-end] minmax(var(--baseGap), 1fr) [full-end];
+
+	--grid4Col: auto / repeat(auto-fill, minmax(40rem, 1fr));
+
+	--baseTextMargin: 4rem;
+
+	--baseMaxWidth: 180rem; // i.e. 1440px; 
+
+	--bottomShadow: radial-gradient(ellipse 50% 2rem at 50% 100%, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0) 100%);
+
+	// debug
+	--debug: 0px; // set to 1 for debug outlines
+
+	// colours
+
+	@include compositeHslaColours($lightTheme, false);
+
+
+	// Base globals
+	--cornerRadius: .5rem;
+	--cornerRadiusPill: 1000rem;
+	--borderWidth: .375rem;
+	--border: var(--borderWidth) solid var(--clrPrimaryAccent);
+
+	--transitionPrimary: all var(--baseTime) ease-out;
+
+	--multiply: multiply;
+	--screen: screen;
+
+	// forms
+	--formBaseSize: 3rem;
+	--formBasePadding: 1rem;
+
+	--formPrimaryClr: var(--clrPrimary);
+	--formPrimaryClrBg: var(--clrPrimaryAccent);
+	--formBorderMain: var(--border);
+
+	--formActiveClr: var(--clrSecondary);
+	--formActiveClrBg: var(--clrSecondaryAccent);
+	--formActiveBorder: var(--borderWidth) solid var(--clrSecondaryAlpha);
+	--formActiveBorderCheckbox: var(--borderWidth) solid var(--clrSecondary);
+
+	--formFocusBorder: var(--borderWidth) solid var(--clrPrimary);
+
+	--formDisabledClr: var(--clrDisabled);
+	--formDisabledClrBg: var(--clrDisabledLight);
+	--formDisabledBorder: var(--borderWidth) solid var(--formDisabledClr);
+
+	--formFocusShadow: 0 0 1px var(--borderWidth) var(--clrPrimaryAlpha);
+
+	--formHoverBorder: var(--borderWidth) solid var(--formPrimaryClr);
+
+	// Filters & shadows
+	--filterHover: brightness(.95);
+
+	// https://shadows.brumm.af/
+	--dropShadowCloser: 0px 0.1px 0.2px var(--clrShadow),
+		0px 0.3px 0.4px var(--clrShadow),
+		0px 0.5px 0.8px var(--clrShadow),
+		0px 0.9px 1.3px var(--clrShadow),
+		0px 1.7px 2.5px var(--clrShadow),
+		0px 4px 6px var(--clrShadow);
+
+	--dropShadowClose: 0px 0.3px 0.6px rgba(0, 0, 0, 0.081),
+		0px 0.9px 1.3px var(--clrShadow),
+		0px 2.2px 2.5px var(--clrShadow),
+		0px 4.5px 4.5px var(--clrShadow),
+		0px 9.5px 8.4px var(--clrShadow),
+		0px 25px 20px var(--clrShadow);
+
+	--dropShadow: 0px 1.4px 1.1px var(--clrShadow),
+		0px 3.3px 2.7px var(--clrShadow),
+		0px 6.3px 5px var(--clrShadow),
+		0px 11.2px 8.9px var(--clrShadow),
+		0px 20.9px 16.7px var(--clrShadow),
+		0px 50px 40px var(--clrShadow);
+	;
+	--dropShadowFar: 0px 1.2px 2.2px var(--clrShadow),
+		0px 3.8px 5.3px var(--clrShadow),
+		0px 8.7px 10px var(--clrShadow),
+		0px 18.1px 17.9px var(--clrShadow),
+		0px 38.1px 33.4px var(--clrShadow),
+		0px 100px 80px var(--clrShadow);
+
+	--dropShadowFarther: 0px 1.4px 5.5px var(--clrShadow),
+		0px 4.6px 13.3px var(--clrShadow),
+		0px 10.5px 25px var(--clrShadow),
+		0px 21.9px 44.7px var(--clrShadow),
+		0px 46.1px 83.6px var(--clrShadow),
+		0px 121px 200px var(--clrShadow);
+}
+
+.darkMode {
+	@include compositeHslaColours($darkTheme, false);
+}

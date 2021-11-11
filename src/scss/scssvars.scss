@@ -1,0 +1,66 @@
+@import 'mixins';
+
+// scss vars used for calculating type scale
+$baseUnit: 8px;
+$baseLineHeight: 1.5;
+$baseTypescale: 1.333; // scss var because raised to power (soon in css too)
+$baseFontSize: 2rem;
+
+// scss vars for breakpoints
+$mobile: 'screen and (max-width: 75rem)';
+$desktop: 'screen and (min-width: 100rem)';
+$tablet: 'screen and (max-width: 100rem)';
+$phone: $mobile;
+
+// other vars used in mixins
+$colMaxWidth: 45rem;
+$baseGap: 4rem;
+
+// colours
+$lightTheme: (clrPrimary: hsl(207, 87%, 50%),
+	clrPrimaryAccent: hsl(207, 87%, 92%),
+	clrPrimaryAlpha: hsla(207, 87%, 50%, 0.08),
+
+	clrSecondary: hsl(276, 89%, 48%),
+	clrSecondaryAccent: hsl(276, 89%, 88%),
+	clrSecondaryAlpha: hsla(276, 89%, 48%, 0.08),
+
+	clrTernary: hsl(0, 89%, 48%),
+	clrTernaryAccent: hsl(0, 89%, 88%),
+	clrTernaryAlpha: hsla(0, 89%, 48%, 0.08),
+
+	clrBg: hsl(0, 0%, 100%),
+	clrBgSecondary: hsl(0, 0%, 91%),
+
+	clrText: hsl(0, 0%, 20%),
+	clrTextSecondary: hsl(0, 0%, 40%),
+	clrTextLight: hsl(0, 0%, 95%),
+
+	clrDisabled: hsl(0, 0%, 83%),
+	clrDisabledLight: hsl(0, 0%, 93%),
+
+	clrShadow: hsla(207, 87%, 50%, 0.08),
+);
+
+$darkTheme: (clrPrimary: hsl(204, 100%, 49%),
+	clrPrimaryAccent: hsl(204, 100%, 25%),
+
+	clrSecondary: hsl(298, 89%, 48%),
+	clrSecondaryAccent: hsl(298, 89%, 28%),
+
+	clrTernary: hsl(0, 89%, 48%),
+	clrTernaryAccent: hsla(0, 89%, 28%),
+
+	clrBg: hsl(0, 0%, 10%),
+	clrBgSecondary: hsl(0, 0%, 33%),
+
+	clrText: hsl(0, 0%, 75%),
+	clrTextSecondary: hsl(0, 0%, 67%),
+	//clrTextLight: hsl(0, 0%, 20%),
+
+	clrDisabled: hsl(0, 0%, 25%),
+	clrDisabledLight: hsl(0, 0%, 41%),
+
+	clrShadow: hsla(207, 87%, 10%, 0.08),
+
+);

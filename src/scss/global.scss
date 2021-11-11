@@ -1,0 +1,74 @@
+@import 'mixins';
+@import 'reset';
+@import 'vars';
+@import 'inputs';
+@import 'type';
+
+html {
+	height: 100%;
+	background: var(--clrBg);
+	color: var(--clrText);
+	// Set base unit globally
+	font: var(--baseUnit)/var(--baseLineHeight) var(--baseFont);
+}
+
+body,
+input {
+	// adjust base font size
+	font-size: var(--baseFontSize);
+}
+
+*,
+*:before,
+*:after,
+input {
+	hyphens: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-tap-highlight-color: transparent;
+	outline: var(--debug) inset #f009;
+	outline-offset: -1px;
+}
+
+body {
+	min-height: 100%;
+	padding: 6rem 0;
+
+	display: grid;
+	grid: var(--baseGrid);
+	gap: var(--baseGap);
+
+	&.noScroll {
+		overflow: hidden;
+	}
+
+	&>* {
+		grid-column: main;
+	}
+
+	& .full {
+		grid-column: full;
+
+		display: grid;
+		grid: var(--baseGrid);
+		gap: var(--baseGap);
+
+		&>* {
+			grid-column: main;
+		}
+	}
+
+}
+
+a {
+	color: var(--clrPrimary);
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.test {
+	background-color: #f009;
+}
