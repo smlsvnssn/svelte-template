@@ -1,12 +1,14 @@
 <script>
 	import Card from './Card.svelte';
-
 	import FormFields from './FormFields.svelte';
-
 	import Component from './Component.svelte';
-	import { isSmallScreen, isDarkMode, mobileMenuVisible } from './stores';
 	import * as Parts from './parts/';
+
+	import { isSmallScreen, isDarkMode, mobileMenuVisible } from './stores';
+
+	import tooltip from './js/tooltip.js';
 	import * as ö from 'ouml';
+	import ProximityAlert from './parts/ProximityAlert.svelte';
 
 	let props = { hello: 'Hello world!' },
 		users = ö.load('https://randomuser.me/api/?results=8'),
@@ -14,14 +16,16 @@
 
 	// Read/write local storage
 	//localStorage.clear();
-	props = ö.getLocal('props');
+	props = ö.getLocal('props') ?? props;
 	$: ö.setLocal('props', props);
 
-	// Media queries
+	// "Media queries"
 	$: $isSmallScreen = innerWidth < 600;
 
 	$isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => ($isDarkMode = e.matches));
+	window
+		.matchMedia('(prefers-color-scheme: dark)')
+		.addEventListener('change', (e) => ($isDarkMode = e.matches));
 	$: {
 		if ($isDarkMode) document.documentElement.classList.add('darkMode');
 		else document.documentElement.classList.remove('darkMode');
@@ -34,9 +38,16 @@
 	}
 </script>
 
+<ProximityAlert />
+<p />
+<p />
+<p />
+<p />
+<p />
+
 <Parts.Switch bind:value={$isDarkMode} title="Dark mode" />
 <div class="full">
-	<h1>Testing testing.</h1>
+	<h1 title="this is a greeting from action" use:tooltip>Testing testing.</h1>
 </div>
 <section class="users">
 	{#await users}
@@ -81,9 +92,11 @@ Globals
 	/>
 </svelte:head>
 
-<style lang="scss" global>
+<style lang="scss">
 	// global styles
-	@use './scss/global.scss';
+	:global {
+		@import './scss/global.scss';
+	}
 
 	.avatars {
 		grid-area: 5 / main;

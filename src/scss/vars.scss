@@ -1,37 +1,21 @@
 @import './scssvars';
 
-// scss vars used for calculating type scale
-$baseUnit: 8px;
-$baseLineHeight: 1.5;
-$baseTypescale: 1.333; // scss var because raised to power (soon in css too)
-$baseFontSize: 2rem;
-
-// scss vars for breakpoints
-$mobile: 'screen and (max-width: 75rem)';
-$desktop: 'screen and (min-width: 100rem)';
-
 :root {
 
 	// Base units & base type.
 
 	--baseUnit: #{$baseUnit}; // Base unit for rem. Set everything else in rems. No pixels!
 	--baseTime: .3s;
-
 	--baseFont: 'DM Sans', -apple-system, Roboto, sans-serif;
 	--baseFontSize: #{$baseFontSize};
-
-
 	--baseLineHeight: #{$baseLineHeight}em;
 	//--baseTypescale: $baseTypescale;
-
 	--baseGap: 2rem;
 
 	--baseGrid: auto / [full-start] minmax(var(--baseGap), 1fr) [main-start] minmax(0, var(--baseMaxWidth)) [main-end] minmax(var(--baseGap), 1fr) [full-end];
-
 	--grid4Col: auto / repeat(auto-fill, minmax(40rem, 1fr));
 
 	--baseTextMargin: 4rem;
-
 	--baseMaxWidth: 180rem; // i.e. 1440px; 
 
 	--bottomShadow: radial-gradient(ellipse 50% 2rem at 50% 100%, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0) 100%);
@@ -50,7 +34,15 @@ $desktop: 'screen and (min-width: 100rem)';
 	--borderWidth: .375rem;
 	--border: var(--borderWidth) solid var(--clrPrimaryAccent);
 
+	// Transitions
 	--transitionPrimary: all var(--baseTime) ease-out;
+	--transitionOver: all var(--baseTime) ease;
+	--transitionOut: all var(--baseTime) ease-in-out;
+	--transitionDecorative: all calc(var(--baseTime) * 3) ease-out;
+
+	// Filters, transforms & shadows
+	--filterHoverBright: brightness(1.1);
+	--transformHoverRise: translateY(-2px) scale(1.01);
 
 	--multiply: multiply;
 	--screen: screen;
@@ -68,14 +60,12 @@ $desktop: 'screen and (min-width: 100rem)';
 	--formActiveBorder: var(--borderWidth) solid var(--clrSecondaryAlpha);
 	--formActiveBorderCheckbox: var(--borderWidth) solid var(--clrSecondary);
 
-	--formFocusBorder: var(--borderWidth) solid var(--clrPrimary);
-
 	--formDisabledClr: var(--clrDisabled);
 	--formDisabledClrBg: var(--clrDisabledLight);
 	--formDisabledBorder: var(--borderWidth) solid var(--formDisabledClr);
 
+	--formFocusBorder: var(--borderWidth) solid var(--clrPrimary);
 	--formFocusShadow: 0 0 1px var(--borderWidth) var(--clrPrimaryAlpha);
-
 	--formHoverBorder: var(--borderWidth) solid var(--formPrimaryClr);
 
 	// Filters & shadows
@@ -89,7 +79,7 @@ $desktop: 'screen and (min-width: 100rem)';
 		0px 1.7px 2.5px var(--clrShadow),
 		0px 4px 6px var(--clrShadow);
 
-	--dropShadowClose: 0px 0.3px 0.6px rgba(0, 0, 0, 0.081),
+	--dropShadowClose: 0px 0.3px 0.6px var(--clrShadow),
 		0px 0.9px 1.3px var(--clrShadow),
 		0px 2.2px 2.5px var(--clrShadow),
 		0px 4.5px 4.5px var(--clrShadow),

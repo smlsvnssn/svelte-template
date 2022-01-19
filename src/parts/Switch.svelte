@@ -1,6 +1,8 @@
 <script>
+	import * as ö from 'ouml';
+
 	export let title = 'Title';
-	export let id = 'id';
+	export let id = ö.randomChars();
 	export let value = 0;
 </script>
 

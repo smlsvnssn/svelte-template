@@ -3,7 +3,7 @@
 	import * as style from '@dicebear/avatars-avataaars-sprites';
 
 	export let seed = Math.random(),
-		gender,
+		gender = undefined,
 		width = 48;
 
 	const settings = {

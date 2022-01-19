@@ -1,4 +1,4 @@
-@use 'sass:math';
+//@use 'sass:math';
 
 @function pow($number, $exponent) {
 	$value: 1;
@@ -11,7 +11,7 @@
 
 	@else if $exponent < 0 {
 		@for $i from 1 through -$exponent {
-			$value: math.div($value, $number);
+			$value: $value / $number;
 		}
 	}
 
@@ -30,7 +30,7 @@
 	@each $color,
 	$value in $map {
 		@if $renderComposites {
-			--#{$color}-h: #{math.div(hue($value), hue($value) * 0 + 1)}; //strip unit
+			--#{$color}-h: #{hue($value) / (hue($value) * 0 + 1)}; //strip unit
 			--#{$color}-s: #{saturation($value)};
 			--#{$color}-l: #{lightness($value)};
 			--#{$color}-a: #{alpha($value)};
@@ -38,7 +38,7 @@
 		}
 
 		@else {
-			--#{$color}: hsla(#{math.div(hue($value), hue($value) * 0 + 1)}, #{saturation($value)}, #{lightness($value)}, #{alpha($value)});
+			--#{$color}: hsla(#{hue($value) / (hue($value) * 0 + 1)}, #{saturation($value)}, #{lightness($value)}, #{alpha($value)});
 		}
 
 	}
@@ -71,7 +71,7 @@
 ) {
 	font: $fontSize#{"/"}$lineHeight map-get($fontSpecs, 'font');
 	letter-spacing: 0em + map-get($fontSpecs, 'letterSpacingRatio');
-	transform: translatey(-$fontSize * ((math.div($lineHeight - 1, 2)) + map-get($fontSpecs, 'topToXheightRatio'))) translatex(-$fontSize * map-get($fontSpecs, 'leftShiftRatio'));
+	transform: translatey(-$fontSize * ((($lineHeight - 1) / 2) + map-get($fontSpecs, 'topToXheightRatio'))) translatex(-$fontSize * map-get($fontSpecs, 'leftShiftRatio'));
 	margin-bottom: -$fontSize * (($lineHeight - 1) + map-get($fontSpecs, 'lineheightMinusXheightRatio'));
 }
 
@@ -106,7 +106,8 @@
 	$fontSpecs: ('font': ('Manuale', serif),
 			'topToXheightRatio': .38,
 			'lineheightMinusXheightRatio': .51,
-			'leftShiftRatio': .12);
+			'leftShiftRatio': .12,
+			'letterSpacingRatio': 0);
 	@include proportionalFont($fontSize, $lineHeight, $fontSpecs);
 }
 

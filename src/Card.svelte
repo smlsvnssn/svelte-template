@@ -1,14 +1,15 @@
 <script>
 	import * as Parts from './parts/';
-	import ö from 'oumlquery';
 	import { fade } from 'svelte/transition';
 	import { title, corporation } from './js/randomTitle';
+	import tooltip from './js/tooltip.js';
+	import * as ö from 'ouml';
 
 	export let user,
 		index = 0;
 </script>
 
-<article transition:fade={{ delay: index * 30 }}>
+<article transition:fade={{ delay: index * 30 }} title="{user.name.first} {user.name.last}" use:tooltip>
 	<div class="avatar">
 		<Parts.Avataaar seed={user.login.md5} gender={user.gender} width="64" />
 	</div>
