@@ -25,6 +25,10 @@
     "rollup-plugin-terser": "^7.0.0",
     "sirv-cli": "^1.0.0",
     "svelte": "^3.42.4",
-    "svelte-preprocess": "^4.9.8"
+    "svelte-infinite-loading": "^1.3.8",
+    "svelte-knobby": "^0.3.4",
+    "svelte-preprocess": "^4.9.8",
+    "svelte-tiny-virtual-list": "^1.1.7",
+    "swiper": "^7.4.1"
   }
 }

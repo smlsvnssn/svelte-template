@@ -1,40 +1,40 @@
 <script>
-	import Card from './Card.svelte';
-	import FormFields from './FormFields.svelte';
-	import Component from './Component.svelte';
-	import * as Parts from './parts/';
+	import Card from './Card.svelte'
+	import FormFields from './FormFields.svelte'
+	import Component from './Component.svelte'
+	import * as Parts from './parts/'
 
-	import { isSmallScreen, isDarkMode, mobileMenuVisible } from './stores';
+	import { isSmallScreen, isDarkMode, mobileMenuVisible } from './stores'
 
-	import tooltip from './js/tooltip.js';
-	import * as ö from 'ouml';
-	import ProximityAlert from './parts/ProximityAlert.svelte';
+	import tooltip from './js/tooltip.js'
+	import * as ö from 'ouml'
+	import ProximityAlert from './parts/ProximityAlert.svelte'
 
 	let props = { hello: 'Hello world!' },
 		users = ö.load('https://randomuser.me/api/?results=8'),
-		innerWidth;
+		innerWidth
 
 	// Read/write local storage
 	//localStorage.clear();
-	props = ö.getLocal('props') ?? props;
-	$: ö.setLocal('props', props);
+	props = ö.getLocal('props') ?? props
+	$: ö.setLocal('props', props)
 
 	// "Media queries"
-	$: $isSmallScreen = innerWidth < 600;
+	$: $isSmallScreen = innerWidth < 600
 
-	$isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+	$isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
 	window
 		.matchMedia('(prefers-color-scheme: dark)')
-		.addEventListener('change', (e) => ($isDarkMode = e.matches));
+		.addEventListener('change', e => ($isDarkMode = e.matches))
 	$: {
-		if ($isDarkMode) document.documentElement.classList.add('darkMode');
-		else document.documentElement.classList.remove('darkMode');
+		if ($isDarkMode) document.documentElement.classList.add('darkMode')
+		else document.documentElement.classList.remove('darkMode')
 	}
 
 	// Menu
 	$: {
-		if ($mobileMenuVisible) document.body.classList.add('noScroll');
-		else document.body.classList.remove('noScroll');
+		if ($mobileMenuVisible) document.body.classList.add('noScroll')
+		else document.body.classList.remove('noScroll')
 	}
 </script>
 
@@ -44,6 +44,12 @@
 <p />
 <p />
 <p />
+
+<Parts.VirtualList />
+
+<!-- <Parts.Knobby /> -->
+
+<Parts.Swiper />
 
 <Parts.Switch bind:value={$isDarkMode} title="Dark mode" />
 <div class="full">

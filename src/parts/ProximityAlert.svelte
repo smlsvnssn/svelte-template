@@ -1,34 +1,34 @@
 <script>
-	import { spring } from 'svelte/motion';
-	import Icon from './Icon.svelte';
+	import { spring } from 'svelte/motion'
+	import Icon from './Icon.svelte'
 
 	const maxDist = 250,
 		springsettings = {
 			stiffness: 0.05,
 			damping: 0.75,
-		};
+		}
 
 	let x = spring(0, springsettings),
 		y = spring(0, springsettings),
-		dist = spring(0, springsettings);
+		dist = spring(0, springsettings)
 
-	const onMousemove = (e) => {
+	const onMousemove = e => {
 		const r = el.getBoundingClientRect(),
 			w = r.width / 2,
 			h = r.height / 2,
 			d = Math.hypot(e.pageX - (r.x + w), e.pageY - (r.y + h)),
-			factor = maxDist / (maxDist - d);
+			factor = maxDist / (maxDist - d)
 
 		if (d < maxDist) {
-			$x = (e.pageX - (r.x + w)) / factor + w;
-			$y = (e.pageY - (r.y + h)) / factor + h;
+			$x = (e.pageX - (r.x + w)) / factor + w
+			$y = (e.pageY - (r.y + h)) / factor + h
 		} else {
-			$x = w;
-			$y = h;
+			$x = w
+			$y = h
 		}
-		$dist = Math.hypot($x - w, $y - h) * 1.025;
-	};
-	let el;
+		$dist = Math.hypot($x - w, $y - h) * 1.025
+	}
+	let el
 
 	$: s = `
 	transform: translate(${$x}px, ${$y}px);
@@ -36,7 +36,7 @@
 	width:	${$dist * 2 + 50}px; 
 	height:	${$dist * 2 + 50}px; 
 	top: 	${-$dist - 25}px; 
-	left: 	${-$dist - 25}px;`;
+	left: 	${-$dist - 25}px;`
 </script>
 
 <svelte:body on:mousemove={onMousemove} />
@@ -45,17 +45,7 @@
 	<div class="dot" style={s} />
 </div>
 
-<div class="test">testa</div>
-
-<link rel="stylesheet" href="https://use.typekit.net/twk4oqd.css" />
-
 <style lang="scss">
-	.test {
-		font-family: ff-real-headline-pro-2, sans-serif;
-		font-weight: 400;
-		font-style: italic;
-		font-size: 80px;
-	}
 	.wrapper {
 		position: relative;
 		width: 50px;
